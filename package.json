@@ -1,0 +1,19 @@
+{
+  "name": "my-persistent-vector",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^24.9.0"
+  },
+  "dependencies": {
+    "immutable": "^4.0.0-rc.12",
+    "mori": "^0.3.2"
+  }
+}
