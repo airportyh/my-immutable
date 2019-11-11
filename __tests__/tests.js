@@ -70,11 +70,48 @@ describe("my persistent vector", () => {
         expect(pv.get(vec6, 4)).toEqual("E");
     });
 
-    // it("can set items in the middle", () => {
-    //     const vec = pv.vector({ fanOut: 2 });
-    //     const vec2 = pv.push(vec, "A");
-    //     const vec3 = pv.push(vec2, "B");
-    //     const vec4 = pv.set(vec3, 1, "X");
-    //     expect(pv.get(vec4)).toEqual("X");
-    // });
+    it("can set items in the middle", () => {
+        const vec = pv.vector({ fanOut: 2 });
+        const vec2 = pv.push(vec, "A");
+        const vec3 = pv.push(vec2, "B");
+        const vec4 = pv.set(vec3, 1, "X");
+        expect(pv.get(vec4, 1)).toEqual("X");
+    });
+
+    it("can set items in the middle (2)", () => {
+        const vec = pv.vector({ fanOut: 2 });
+        const vec2 = pv.push(vec, "A");
+        const vec3 = pv.push(vec2, "B");
+        const vec4 = pv.push(vec3, "C");
+        const vec5 = pv.push(vec4, "D");
+        const vec6 = pv.push(vec5, "E");
+        const vec7 = pv.set(vec6, 3, "X");
+        expect(pv.get(vec7, 3)).toEqual("X");
+    });
+
+    it("can remove", () => {
+        const vec = pv.vector({ fanOut: 2 });
+        const vec2 = pv.push(vec, "A");
+        const vec3 = pv.push(vec2, "B");
+        const vec4 = pv.pop(vec3);
+        expect(pv.count(vec4)).toEqual(1);
+        expect(pv.get(vec4, 0)).toEqual("A");
+        expect(() => pv.get(vec4, 1)).toThrow(/Index out of bounds/);
+    });
+
+    it("can remove (2)", () => {
+        const vec = pv.vector({ fanOut: 2 });
+        const vec2 = pv.push(vec, "A");
+        const vec3 = pv.push(vec2, "B");
+        const vec4 = pv.push(vec3, "C");
+        const vec5 = pv.push(vec4, "D");
+        const vec6 = pv.push(vec5, "E");
+        const vec7 = pv.pop(vec6);
+        expect(pv.count(vec7)).toEqual(4);
+        expect(pv.get(vec7, 0)).toEqual("A");
+        expect(pv.get(vec7, 1)).toEqual("B");
+        expect(pv.get(vec7, 2)).toEqual("C");
+        expect(pv.get(vec7, 3)).toEqual("D");
+        expect(() => pv.get(vec7, 4)).toThrow(/Index out of bounds/);
+    });
 });
