@@ -1,3 +1,6 @@
+// Based on
+// * https://hypirion.com/musings/understanding-persistent-vector-pt-1
+// * https://hypirion.com/musings/understanding-persistent-vector-pt-2
 const { debug, debug_call, debug_return } = require("./my-debug");
 
 exports.vector = vector;

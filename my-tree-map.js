@@ -1,3 +1,5 @@
+// Based on http://groups.csail.mit.edu/mac/users/adams/BB/
+// With help from http://www.mathcs.emory.edu/~cheung/Courses/171/Syllabus/9-BinTree/BST-delete2.html
 const zip = require("lodash/zip");
 const { debug_call, debug_return, debug } = require("./my-debug");
 
