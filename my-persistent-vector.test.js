@@ -1,4 +1,4 @@
-const pv = require("../my-persistent-vector");
+const pv = require("./my-persistent-vector");
 const util = require("util");
 
 describe("my persistent vector", () => {
@@ -36,11 +36,11 @@ describe("my persistent vector", () => {
         const vec3 = pv.push(vec2, "B");
         // the next one causes an "expand"
         const vec4 = pv.push(vec3, "C");
-        expect(vec2.root).toEqual(["A", undefined]);
+        expect(vec2.root).toEqual(["A", null]);
         expect(vec3.root).toEqual(["A", "B"]);
         expect(pv.count(vec4)).toEqual(3);
         expect(vec4.root[0]).toEqual(["A", "B"]);
-        expect(vec4.root[1]).toEqual(["C", undefined]);
+        expect(vec4.root[1]).toEqual(["C", null]);
         expect(vec4.root[0]).toBe(vec3.root);
     });
 

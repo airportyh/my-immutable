@@ -1,49 +1,11 @@
-const util = require("util");
-
-const isDebugMode = true;
-let stackDepth = 0;
-function indent(str, level) {
-    const indent = Array(level + 1).join("    ");
-    return str.split("\n").map(line => indent + line).join("\n");
-}
-
-function debug(message, value) {
-    if (!isDebugMode) {
-        return;
-    }
-    if (value) {
-        console.log(indent(message + " " + util.inspect(value, { depth: 50 }), stackDepth));
-    } else {
-        console.log(indent(message, stackDepth));
-    }
-}
-
-function debug_call(label, value) {
-    if (!isDebugMode) {
-        return;
-    }
-    console.log(indent(
-        "calling " + label + "(" + util.inspect(value, { depth: 50 }) + ")",
-        stackDepth));
-    stackDepth++;
-}
-
-function debug_return(label, value) {
-    if (!isDebugMode) {
-        return;
-    }
-    stackDepth--;
-    console.log(indent(
-        label + " returning " + util.inspect(value, { depth: 50 }),
-        stackDepth));
-}
+const { debug, debug_call, debug_return } = require("./my-debug");
 
 exports.vector = vector;
 function vector(options) {
     return {
         fanOut: options && options.fanOut || 10,
         count: 0,
-        root: undefined,
+        root: null,
         levels: 0
     };
 }
@@ -65,7 +27,7 @@ function push(vector, value) {
     if (vector.root && (newLevels > vector.levels)) {
         // expand new level
         debug("expand new level");
-        const newRoot = Array(vector.fanOut);
+        const newRoot = Array(vector.fanOut).fill(null);;
         newRoot[0] = vector.root;
         const secondChild = _push(
             null, value, 0,
@@ -96,7 +58,7 @@ function push(vector, value) {
 function _push(node, value, index, fanOut, level) {
     debug_call("_push", { node, value, index, level });
     let retval;
-    const newNode = node ? node.slice() : Array(fanOut);
+    const newNode = node ? node.slice() : Array(fanOut).fill(null);;
     // todo, replace with generic way to calculate thisIndex
     const thisIndex = Math.floor(index / fanOut);
     const childIndex = index % fanOut;
@@ -158,7 +120,7 @@ function _pop(node, index, fanOut, level) {
         % fanOut;
     debug("calculated", { index, thisIndex });
     if (level === 0) {
-        newNode[thisIndex] = undefined;
+        newNode[thisIndex] = null;
         return newNode;
     } else {
         const newChildNode = _pop(
@@ -227,7 +189,7 @@ function set(vector, index, value) {
 function _set(node, index, value, fanOut, level) {
     debug_call("_set", { node, index, fanOut, level });
     let retval;
-    const newNode = node ? node.slice() : Array(fanOut);
+    const newNode = node ? node.slice() : Array(fanOut).fill(null);
     const thisIndex = Math.floor(
         index / Math.pow(fanOut, level))
         % fanOut;
