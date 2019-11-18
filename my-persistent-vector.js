@@ -62,16 +62,16 @@ function _push(node, value, index, fanOut, level) {
     debug_call("_push", { node, value, index, level });
     let retval;
     const newNode = node ? node.slice() : Array(fanOut).fill(null);;
-    // todo, replace with generic way to calculate thisIndex
-    const thisIndex = Math.floor(index / fanOut);
-    const childIndex = index % fanOut;
+    const thisIndex = Math.floor(
+        index / Math.pow(fanOut, level))
+        % fanOut;
     if (level === 0) {
-        newNode[index] = value;
+        newNode[thisIndex] = value;
     } else {
         const newChildNode = _push(
-            node && node[thisIndex], value, childIndex,
+            node && node[thisIndex], value, index,
             fanOut, level - 1);
-        newNode[childIndex] = newChildNode;
+        newNode[thisIndex] = newChildNode;
     }
     retval = newNode;
     debug_return("_push", retval);
