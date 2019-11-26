@@ -92,7 +92,12 @@ function set(treeMap, key, value) {
                 treeMap.right
             ));
         } else {
-            throw new Error("Unsupported");
+            return makeTreeMapNode(
+                treeMap.key,
+                value,
+                treeMap.left,
+                treeMap.right
+            );
         }
     }
 }
@@ -166,7 +171,7 @@ function minNode(treeMap) {
 exports.balanced = balanced;
 function balanced(treeMap) {
     debug_call("balanced", { treeMap });
-    const weight = 2.5;
+    const weight = 3.745;
     const leftCount = count(treeMap.left);
     const rightCount = count(treeMap.right);
     if (leftCount + rightCount < 2) {
