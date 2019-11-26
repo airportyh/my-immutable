@@ -15,7 +15,7 @@ The plan is to implement:
 
 * Rich Hickey's Bitmap-based Persistent Vector as [explained by Polymatheia](https://hypirion.com/musings/understanding-persistent-vector-pt-1)
 * Haskell's Tree-Map implementation, a.k.a [Data.Map](https://hackage.haskell.org/package/containers-0.4.2.0/docs/Data-Map.html), as explained by [Stephen Adams](http://groups.csail.mit.edu/mac/users/adams/BB/)
-* Phil Bagwell's Ideal Hash Trees, as implement in [clojure](https://github.com/clojure/clojure/blob/master/src/jvm/clojure/lang/PersistentHashMap.java) and as [explained by Phil Bagwell himself](https://lampwww.epfl.ch/papers/idealhashtrees.pdf)
+* Phil Bagwell's Ideal Hash Trees, as implement in [clojure's Persistent Hash Map](https://github.com/clojure/clojure/blob/master/src/jvm/clojure/lang/PersistentHashMap.java) and as [explained by Phil Bagwell himself](https://lampwww.epfl.ch/papers/idealhashtrees.pdf)
 
 ## Performance
 
@@ -29,3 +29,21 @@ These are rough estimates
 * Bitmap-based Persistent Vector: 60% ([my-persistent-vector.js](my-persistent-vector.js))
 * Tree-Map: 60% ([my-tree-map.js](my-tree-map.js))
 * Ideal Hash Trees: 0%
+
+## Todo
+
+* Bitmap-based Persistent Vector
+    * each
+    * map
+    * filter
+    * reduce
+    * delete
+    * fast initialization
+    * tail optimization (not what you are thinking)
+    * bit op optimization
+* Tree-Map
+    * each
+    * map
+    * filter
+    * reduce
+    * benchmark

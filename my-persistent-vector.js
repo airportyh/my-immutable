@@ -6,7 +6,7 @@ const { debug, debug_call, debug_return } = require("./my-debug");
 exports.vector = vector;
 function vector(options) {
     return {
-        fanOut: options && options.fanOut || 10,
+        fanOut: options && options.fanOut || 32,
         count: 0,
         root: null,
         levels: 0

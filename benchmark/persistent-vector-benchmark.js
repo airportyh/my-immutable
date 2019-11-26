@@ -27,7 +27,7 @@ function runBenchmarks() {
 function randomAccessBenchmark() {
     let start, end;
     const iterations = 1000000;
-    const arraySize = 10000;
+    const arraySize = 100000;
     const indices = [];
     let vector = pv.vector();
     let arr = [];
