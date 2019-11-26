@@ -166,4 +166,28 @@ describe("tree map", () => {
         treeMap = tm.balanced(treeMap);
         // console.log("after\n" + tm.repr(treeMap));
     });
+
+    it("can traverse with each", () => {
+        let treeMap = tm.treeMap();
+        treeMap = tm.set(treeMap, 5, true);
+        treeMap = tm.set(treeMap, 1, true);
+        treeMap = tm.set(treeMap, 9, true);
+        treeMap = tm.set(treeMap, 6, true);
+        treeMap = tm.set(treeMap, 7, true);
+        treeMap = tm.set(treeMap, 8, true);
+        treeMap = tm.set(treeMap, 10, true);
+        const entries = [];
+        tm.each(treeMap, (value, key) => {
+            entries.push([key, value]);
+        });
+        expect(entries).toEqual([
+            [1, true],
+            [5, true],
+            [6, true],
+            [7, true],
+            [8, true],
+            [9, true],
+            [10, true]
+        ]);
+    });
 });

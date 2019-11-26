@@ -309,3 +309,13 @@ function doubleRightRotation(treeMap) {
     debug_return("doubleRightRotation", retval);
     return retval;
 }
+
+exports.each = each;
+function each(treeMap, fun) {
+    if (!treeMap) {
+        return;
+    }
+    each(treeMap.left, fun);
+    fun(treeMap.value, treeMap.key);
+    each(treeMap.right, fun);
+}
