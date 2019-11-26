@@ -9,7 +9,7 @@ purpose of this project are:
 serialization that takes advantage of structural sharing to
 reduce file size.
 
-## Implementations
+## Plan
 
 The plan is to implement:
 
