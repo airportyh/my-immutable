@@ -319,3 +319,15 @@ function each(treeMap, fun) {
     fun(treeMap.value, treeMap.key);
     each(treeMap.right, fun);
 }
+
+exports.reduce = reduce;
+function reduce(treeMap, fun, initialValue) {
+	let currentValue = initialValue;
+	if (!treeMap) {
+		return currentValue;
+	}
+	currentValue = reduce(treeMap.left, fun, currentValue);
+	currentValue = fun(currentValue, treeMap.value, treeMap.key);
+	currentValue = reduce(treeMap.right, fun, currentValue);
+	return currentValue;
+}

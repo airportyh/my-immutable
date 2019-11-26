@@ -27,7 +27,7 @@ objects.
 These are rough estimates
 
 * Bitmap-based Persistent Vector: 60% ([my-persistent-vector.js](my-persistent-vector.js))
-* Tree-Map: 60% ([my-tree-map.js](my-tree-map.js))
+* Tree-Map: 65% ([my-tree-map.js](my-tree-map.js))
 * Ideal Hash Trees: 0%
 
 ## Todo
@@ -42,8 +42,9 @@ These are rough estimates
     * tail optimization (not what you are thinking)
     * bit op optimization
 * Tree-Map
-    * each
     * map
     * filter
-    * reduce
     * benchmark
+	* each (x)
+    * reduce (x)
+    

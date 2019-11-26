@@ -190,4 +190,42 @@ describe("tree map", () => {
             [10, true]
         ]);
     });
+
+    it("can reduce", () => {
+        let treeMap = tm.treeMap();
+        treeMap = tm.set(treeMap, 5, true);
+        treeMap = tm.set(treeMap, 1, true);
+        treeMap = tm.set(treeMap, 9, true);
+        treeMap = tm.set(treeMap, 6, true);
+        treeMap = tm.set(treeMap, 7, true);
+        treeMap = tm.set(treeMap, 8, true);
+        treeMap = tm.set(treeMap, 10, true);
+        const sum = tm.reduce(treeMap, (sum, value, key) => {
+			return sum + key;
+		}, 0);
+		expect(sum).toEqual(1 + 5 + 6 + 7 + 8 + 9 + 10);
+    });
+	
+	it("can reduce (2)", () => {
+        let treeMap = tm.treeMap();
+        treeMap = tm.set(treeMap, 5, true);
+        treeMap = tm.set(treeMap, 1, true);
+        treeMap = tm.set(treeMap, 9, true);
+        treeMap = tm.set(treeMap, 6, true);
+        treeMap = tm.set(treeMap, 7, true);
+        treeMap = tm.set(treeMap, 8, true);
+        treeMap = tm.set(treeMap, 10, true);
+        const entries = tm.reduce(treeMap, (arr, value, key) => {
+			return [...arr, [key, value]];
+		}, []);
+		expect(entries).toEqual([
+            [1, true],
+            [5, true],
+            [6, true],
+            [7, true],
+            [8, true],
+            [9, true],
+            [10, true]
+        ]);
+    });
 });
