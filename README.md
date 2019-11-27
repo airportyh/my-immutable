@@ -40,6 +40,7 @@ These are rough estimates
     * delete
     * fast initialization
     * tail optimization (not what you are thinking)
+	* try rewriting in a non-recursive way
     * bit op optimization
 * Tree-Map
     * map

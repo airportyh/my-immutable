@@ -212,3 +212,29 @@ function _set(node, index, value, fanOut, level) {
     debug_return("_set", retval);
     return retval;
 }
+
+exports.each = each;
+function each(vector, fun) {
+	debug_call("each", { vector });
+	_each(vector.root, fun, vector.count, vector.fanOut, vector.levels - 1);
+	debug_return("each");
+}
+
+function _each(node, fun, endIndex, fanOut, level) {
+	debug_call("_each", { node, endIndex, fanOut, level });
+	const thisEndIndex = Math.floor(
+        endIndex / Math.pow(fanOut, level)) % fanOut;
+	debug("thisEndIndex", { thisEndIndex });
+	if (level === 0) {
+		debug("level === 0");
+		for (let i = 0; i < thisEndIndex; i++) {
+			fun(node[i], thisEndIndex - i);
+		}
+	} else {
+		debug("else (level !== 0)");
+		for (let i = 0; i < thisEndIndex; i++) {
+			_each(node[i], fun, endIndex, fanOut, level - 1);
+		}
+	}
+	debug_return("_each");
+}

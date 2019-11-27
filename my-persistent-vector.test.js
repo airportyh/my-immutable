@@ -114,4 +114,24 @@ describe("my persistent vector", () => {
         expect(pv.get(vec7, 3)).toEqual("D");
         expect(() => pv.get(vec7, 4)).toThrow(/Index out of bounds/);
     });
+	
+	fit("can traverse with each", () => {
+		const vec = pv.vector({ fanOut: 2 });
+        const vec2 = pv.push(vec, "A");
+        const vec3 = pv.push(vec2, "B");
+        const vec4 = pv.push(vec3, "C");
+        const vec5 = pv.push(vec4, "D");
+        const vec6 = pv.push(vec5, "E");
+		const items = [];
+		pv.each(vec6, (value, idx) => {
+			items.push([idx, value]);
+		});
+		expect(items).toEqual([
+			[0, "A"],
+			[1, "B"],
+			[2, "C"],
+			[3, "D"],
+			[4, "E"],
+		]);
+	});
 });
