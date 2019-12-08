@@ -226,7 +226,6 @@ function _each(node, fun, parentIndex, endIndex, fanOut, level) {
     for (let i = 0; i < endIndex; i++) {
       const idx = parentIndex * fanOut + i;
       const item = node[i];
-      debug("call fun", { item, idx });
       fun(item, idx);
     }
   } else {
@@ -239,7 +238,6 @@ function _each(node, fun, parentIndex, endIndex, fanOut, level) {
         i < (myEndIndex - 1) ?
         Math.pow(fanOut, level) :
         offsetLeft;
-      debug("loop", { i, idx, childNode, offsetLeft, childEndIndex });
       _each(childNode, fun, idx, childEndIndex, fanOut, level - 1);
       offsetLeft -= Math.pow(fanOut, level);
     }
@@ -248,10 +246,26 @@ function _each(node, fun, parentIndex, endIndex, fanOut, level) {
 }
 
 exports.reduce = reduce;
-function reduce(vector, fun, initValue) {
+function reduce(vec, fun, initValue) {
   let curr = initValue;
-  each(vector, (item, idx) => {
+  each(vec, (item, idx) => {
     curr = fun(curr, item, idx);
   });
   return curr;
+}
+
+exports.map = map;
+function map(vec, fun) {
+  return reduce(vec, (newVec, item, idx) => push(newVec, fun(item, idx)), vector());
+}
+
+exports.filter = filter;
+function filter(vec, fun) {
+  return reduce(vec, (newVec, item, idx) => {
+    if (fun(item, idx)) {
+      return push(newVec, item);
+    } else {
+      return newVec;
+    }
+  }, vector());
 }

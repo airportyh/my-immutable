@@ -1,6 +1,18 @@
 const pv = require("./my-persistent-vector");
 const util = require("util");
 
+const collect = (vector) => {
+  const retval = [];
+  pv.each(vector, (item, idx) => retval.push([idx, item]));
+  return retval;
+};
+
+const collectItems = (vector) => {
+  const retval = [];
+  pv.each(vector, (item) => retval.push(item));
+  return retval;
+};
+
 describe("my persistent vector", () => {
     it("can create empty vector", () => {
         const vec = pv.vector();
@@ -136,11 +148,6 @@ describe("my persistent vector", () => {
 	});
 
   it("can traverse with each", () => {
-    const collect = (vector) => {
-      const retval = [];
-      pv.each(vector, (item, idx) => retval.push([idx, item]));
-      return retval;
-    }
     const vec = pv.vector({ fanOut: 2 });
     const vec2 = pv.push(vec, "A");
     const vec3 = pv.push(vec2, "B");
@@ -253,5 +260,44 @@ describe("my persistent vector", () => {
       3: 4,
       4: 5
     });
+  });
+
+  it("can reduce (2)", () => {
+    let vec = pv.vector({ fanOut : 2 });
+    vec = pv.push(vec, 1);
+    vec = pv.push(vec, 2);
+    vec = pv.push(vec, 3);
+    vec = pv.push(vec, 4);
+    vec = pv.push(vec, 5);
+    const result = pv.reduce(vec, (curr, item, idx) => {
+      return curr + item;
+    }, 0);
+    expect(result).toEqual(15);
+  });
+
+  it("can map", () => {
+    let vec = pv.vector({ fanOut : 2 });
+    vec = pv.push(vec, 1);
+    vec = pv.push(vec, 2);
+    vec = pv.push(vec, 3);
+    vec = pv.push(vec, 4);
+    vec = pv.push(vec, 5);
+    const doubled = pv.map(vec, (num) => num * 2);
+    const doubledIndices = pv.map(vec, (num, idx) => idx * 2);
+    expect(collectItems(doubled)).toEqual([2, 4, 6, 8, 10]);
+    expect(collectItems(doubledIndices)).toEqual([0, 2, 4, 6, 8]);
+  });
+
+  it("can filter", () => {
+    let vec = pv.vector({ fanOut : 2 });
+    vec = pv.push(vec, 1);
+    vec = pv.push(vec, 2);
+    vec = pv.push(vec, 3);
+    vec = pv.push(vec, 4);
+    vec = pv.push(vec, 5);
+    const odds = pv.filter(vec, (num) => num % 2 === 1);
+    const oddIndices = pv.filter(vec, (num, idx) => idx % 2 === 1);
+    expect(collectItems(odds)).toEqual([1, 3, 5]);
+    expect(collectItems(oddIndices)).toEqual([2, 4]);
   });
 });
