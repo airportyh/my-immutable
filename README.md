@@ -33,19 +33,18 @@ These are rough estimates
 ## Todo
 
 * Bitmap-based Persistent Vector
-    * each
-    * map
-    * filter
-    * reduce
-    * delete
-    * fast initialization
-    * tail optimization (not what you are thinking)
-	* try rewriting in a non-recursive way
+  * try rewriting get in a non-recursive way
     * bit op optimization
+  * delete
+  * fast initialization
+  * tail optimization (not what you are thinking)
+	* each (x)
+  * map (x)
+  * filter (x)
+  * reduce (x)
 * Tree-Map
     * map
     * filter
     * benchmark
 	* each (x)
     * reduce (x)
-    
