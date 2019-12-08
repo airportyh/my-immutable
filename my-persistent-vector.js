@@ -216,25 +216,33 @@ function _set(node, index, value, fanOut, level) {
 exports.each = each;
 function each(vector, fun) {
 	debug_call("each", { vector });
-	_each(vector.root, fun, vector.count, vector.fanOut, vector.levels - 1);
+	_each(vector.root, fun, 0, vector.count, vector.fanOut, vector.levels - 1);
 	debug_return("each");
 }
 
-function _each(node, fun, endIndex, fanOut, level) {
-	debug_call("_each", { node, endIndex, fanOut, level });
-	const thisEndIndex = Math.floor(
-        endIndex / Math.pow(fanOut, level)) % fanOut;
-	debug("thisEndIndex", { thisEndIndex });
-	if (level === 0) {
-		debug("level === 0");
-		for (let i = 0; i < thisEndIndex; i++) {
-			fun(node[i], thisEndIndex - i);
-		}
-	} else {
-		debug("else (level !== 0)");
-		for (let i = 0; i < thisEndIndex; i++) {
-			_each(node[i], fun, endIndex, fanOut, level - 1);
-		}
-	}
-	debug_return("_each");
+function _each(node, fun, parentIndex, endIndex, fanOut, level) {
+  debug_call("_each", { node, parentIndex, endIndex, level });
+  if (level === 0) {
+    for (let i = 0; i < endIndex; i++) {
+      const idx = parentIndex * fanOut + i;
+      const item = node[i];
+      debug("call fun", { item, idx });
+      fun(item, idx);
+    }
+  } else {
+    const myEndIndex = endIndex / Math.pow(fanOut, level);
+    let offsetLeft = endIndex;
+    for (let i = 0; i < myEndIndex; i++) {
+      const idx = parentIndex * fanOut + i;
+      const childNode = node[i];
+      const childEndIndex =
+        i < (myEndIndex - 1) ?
+        Math.pow(fanOut, level) :
+        offsetLeft;
+      debug("loop", { i, idx, childNode, offsetLeft, childEndIndex });
+      _each(childNode, fun, idx, childEndIndex, fanOut, level - 1);
+      offsetLeft -= Math.pow(fanOut, level);
+    }
+  }
+  debug_return("_each");
 }

@@ -1,6 +1,6 @@
 const util = require("util");
 
-const isDebugMode = true;
+const isDebugMode = false;
 let stackDepth = 0;
 exports.indent = indent;
 function indent(str, level) {

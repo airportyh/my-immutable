@@ -114,19 +114,19 @@ describe("my persistent vector", () => {
         expect(pv.get(vec7, 3)).toEqual("D");
         expect(() => pv.get(vec7, 4)).toThrow(/Index out of bounds/);
     });
-	
-	fit("can traverse with each", () => {
+
+	it("can traverse with each", () => {
 		const vec = pv.vector({ fanOut: 2 });
-        const vec2 = pv.push(vec, "A");
-        const vec3 = pv.push(vec2, "B");
-        const vec4 = pv.push(vec3, "C");
-        const vec5 = pv.push(vec4, "D");
-        const vec6 = pv.push(vec5, "E");
+    const vec2 = pv.push(vec, "A");
+    const vec3 = pv.push(vec2, "B");
+    const vec4 = pv.push(vec3, "C");
+    const vec5 = pv.push(vec4, "D");
+    const vec6 = pv.push(vec5, "E");
 		const items = [];
 		pv.each(vec6, (value, idx) => {
 			items.push([idx, value]);
 		});
-		expect(items).toEqual([
+    expect(items).toEqual([
 			[0, "A"],
 			[1, "B"],
 			[2, "C"],
@@ -134,4 +134,102 @@ describe("my persistent vector", () => {
 			[4, "E"],
 		]);
 	});
+
+  it("can traverse with each", () => {
+    const collect = (vector) => {
+      const retval = [];
+      pv.each(vector, (item, idx) => retval.push([idx, item]));
+      return retval;
+    }
+    const vec = pv.vector({ fanOut: 2 });
+    const vec2 = pv.push(vec, "A");
+    const vec3 = pv.push(vec2, "B");
+    const vec4 = pv.push(vec3, "C");
+    const vec5 = pv.push(vec4, "D");
+    const vec6 = pv.push(vec5, "E");
+    const vec7 = pv.push(vec6, "F");
+    const vec8 = pv.push(vec7, "G");
+    const vec9 = pv.push(vec8, "H");
+    const vec10 = pv.push(vec9, "I");
+    const vec11 = pv.push(vec10, "J");
+    const vec12 = pv.push(vec11, "K");
+    expect(collect(vec)).toEqual([]);
+    expect(collect(vec2)).toEqual([
+      [ 0, 'A' ]]);
+    expect(collect(vec3)).toEqual([
+      [ 0, 'A' ],
+      [ 1, 'B' ]]);
+    expect(collect(vec4)).toEqual([
+      [ 0, 'A' ],
+      [ 1, 'B' ],
+      [ 2, 'C' ]]);
+    expect(collect(vec5)).toEqual([
+      [ 0, 'A' ],
+      [ 1, 'B' ],
+      [ 2, 'C' ],
+      [ 3, 'D' ]]);
+    expect(collect(vec6)).toEqual([
+      [ 0, 'A' ],
+      [ 1, 'B' ],
+      [ 2, 'C' ],
+      [ 3, 'D' ],
+      [ 4, 'E' ]]);
+    expect(collect(vec7)).toEqual([
+      [ 0, 'A' ],
+      [ 1, 'B' ],
+      [ 2, 'C' ],
+      [ 3, 'D' ],
+      [ 4, 'E' ],
+      [ 5, 'F' ]]);
+    expect(collect(vec8)).toEqual([
+      [ 0, 'A' ],
+      [ 1, 'B' ],
+      [ 2, 'C' ],
+      [ 3, 'D' ],
+      [ 4, 'E' ],
+      [ 5, 'F' ],
+      [ 6, 'G' ]]);
+    expect(collect(vec9)).toEqual([
+      [ 0, 'A' ],
+      [ 1, 'B' ],
+      [ 2, 'C' ],
+      [ 3, 'D' ],
+      [ 4, 'E' ],
+      [ 5, 'F' ],
+      [ 6, 'G' ],
+      [ 7, 'H' ]]);
+    expect(collect(vec10)).toEqual([
+      [ 0, 'A' ],
+      [ 1, 'B' ],
+      [ 2, 'C' ],
+      [ 3, 'D' ],
+      [ 4, 'E' ],
+      [ 5, 'F' ],
+      [ 6, 'G' ],
+      [ 7, 'H' ],
+      [ 8, 'I' ],]);
+    expect(collect(vec11)).toEqual([
+      [ 0, 'A' ],
+      [ 1, 'B' ],
+      [ 2, 'C' ],
+      [ 3, 'D' ],
+      [ 4, 'E' ],
+      [ 5, 'F' ],
+      [ 6, 'G' ],
+      [ 7, 'H' ],
+      [ 8, 'I' ],
+      [ 9, 'J' ]]);
+    expect(collect(vec12)).toEqual([
+      [ 0, 'A' ],
+      [ 1, 'B' ],
+      [ 2, 'C' ],
+      [ 3, 'D' ],
+      [ 4, 'E' ],
+      [ 5, 'F' ],
+      [ 6, 'G' ],
+      [ 7, 'H' ],
+      [ 8, 'I' ],
+      [ 9, 'J' ],
+      [ 10, 'K' ] ]);
+  });
 });
