@@ -246,3 +246,12 @@ function _each(node, fun, parentIndex, endIndex, fanOut, level) {
   }
   debug_return("_each");
 }
+
+exports.reduce = reduce;
+function reduce(vector, fun, initValue) {
+  let curr = initValue;
+  each(vector, (item, idx) => {
+    curr = fun(curr, item, idx);
+  });
+  return curr;
+}

@@ -232,4 +232,26 @@ describe("my persistent vector", () => {
       [ 9, 'J' ],
       [ 10, 'K' ] ]);
   });
+
+  it("can reduce", () => {
+    let vec = pv.vector({ fanOut : 2 });
+    vec = pv.push(vec, 1);
+    vec = pv.push(vec, 2);
+    vec = pv.push(vec, 3);
+    vec = pv.push(vec, 4);
+    vec = pv.push(vec, 5);
+    const result = pv.reduce(vec, (curr, item, idx) => {
+      return {
+        ...curr,
+        [idx]: item
+      };
+    }, {});
+    expect(result).toEqual({
+      0: 1,
+      1: 2,
+      2: 3,
+      3: 4,
+      4: 5
+    });
+  });
 });
